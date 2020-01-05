@@ -1,0 +1,239 @@
+<p/>
+<h1>KCrypt version 6 command reference</h1>
+<h2/>
+
+KCrypt 6.0 - a file encryption/obfuscation tool 
+</h2/><p/>
+<h3/>SYNOPSIS</h3/>
+
+<B>kcrypt6 </B>
+
+[options]&nbsp;{files_or_directories}
+
+<P>
+
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<h3/>DISCLAIMER</h3/>
+
+An encryption program, by definition, turns useful files into incomprehensible
+garbage. Please test this program very
+carefully on non-critical data before trusting it on important files. The
+author accepts
+no responsibility whatever for undesired consequences of using this software.
+<P>
+<A NAME="lbAE">&nbsp;</A>
+<h3/>DESCRIPTION</h3/>
+
+KCrypt 
+is a straightforward file encrypter/obfuscator, intended to provide 
+strong security for sensitive files. It encrypts files using a key (password),
+making them incomprehensible until they are decrypted, using the same key.
+By default KCrypt uses the IDEA algorith, but can be set to user a 
+faster (and weaker) method if preferred. 
+<P>
+<A NAME="lbAF">&nbsp;</A>
+<h3/>OVERVIEW OF OPERATION</h3/>
+
+In its most straightforward usage, KCrypt is invoked in either `encrypt' or
+`decrypt' mode, using the `-e' switch for encryption,
+<BR>&nbsp;or&nbsp;the&nbsp;`-d'&nbsp;switch&nbsp;for&nbsp;decryption,&nbsp;followed&nbsp;by&nbsp;a&nbsp;list&nbsp;of&nbsp;files&nbsp;to
+encrypt or decrypt. For example, executing
+<P>
+
+kcrypt -e *
+<P>
+
+encrypts all the files in the current directory that are not already encrypted,
+while 
+<P>
+
+kcrypt -d fred
+<P>
+
+decrypts the file `fred'. In both cases, no extra files are created; the new
+file replaces the old one.
+<P>
+
+In all operations, KCrypt displays a status report, including the designation
+`OK', `SKIPPED' or `ERROR'.
+`SKIPPED' means that the operation requested was not appropriate to a
+particular file. For example, KCrypt will not encrypt a file that is already
+encrypted; this is not considered an error but a skip. However, attempting to
+encrypt or decrypt a non-regular file (e.g., a device or directory name) would
+be considered an error and marked as such.  
+<P>
+<A NAME="lbAG">&nbsp;</A>
+<h3/>OPTIONS</h3/>
+
+<DL COMPACT>
+<DT><DT><B>-c,--cat&nbsp;{</B><I>paths</I><B>}</B>
+
+<DD>
+<DD>
+Decrypt the specified files to standard output. This form of decryption
+does not produce any temporary files.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-d,--decrypt&nbsp;{</B><I>paths</I><B>}</B>
+
+<DD>
+Decrypt the specified files or folders. 
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-e,--encrypt&nbsp;{</B><I>paths</I><B>}</B>
+
+<DD>
+Encrypt the specified files in place, that is, retaining the original
+names. See also <B>--encryptmangle</B>. 
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-f,--max-files&nbsp;{</B><I>number</I><B>}</B>
+
+<DD>
+Sets the number of files that KCrypt is prepared to process in one
+operation, in recursive mode. The default is twenty. 
+There is no limit to the number of files that KCrypt will process if
+they are specified explicitly on the command-line, even with wildcards.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-l,--list&nbsp;{</B><I>paths</I><B>}</B>
+
+<DD>
+Display information about encrypted files, including the original sizes and the
+time and date of encryption. One of the most important uses of <B>--list</B> 
+is to
+determine the original filename for files that have had their names mangled
+(see below). Note that you will need to enter the password to see this 
+information,
+as it is all stored in the file in encrypted format.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-m,--encryptmangle&nbsp;{</B><I>paths</I><B>}</B>
+
+<DD>
+Encrypt and mangle the names of the specified files. The file will be 
+renamed to a random number, with the original name stored internally
+in encrypted format. 
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-n,--no-colour</B>
+
+<DD>
+Do not highlight status reports in colour, even if the terminal 
+supports it.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-p,--password&nbsp;{</B><I>password</I><B>}</B>
+
+<DD>
+Use the specified password, rather than prompting. Very insecure -- should
+only ever be used for testing.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-r,--recurse</B>
+
+<DD>
+Recurse into subdirectories. Because of the possibility of disaster,
+only the first 20 files found will be processed. This behaviour can
+be overridden using the <B>--max-files</B> switch
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>--version</B>
+
+<DD>
+Display the version number. 
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-v,--verbose</B>
+
+<DD>
+Output debugging information.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-w,--wipe&nbsp;{</B><I>paths</I><B>}</B>
+
+<DD>
+Wiping a file is a strong form of deletion. The file is overwritten with
+zeros and then deleted. 
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-x,--xor</B>
+
+<DD>
+Use the fast, weak XOR-based cipher, rather than the much stronger
+IDEA method.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>-y,--yes</B>
+
+<DD>
+Answer 'yes' to all confirmation prompts.
+</DL>
+<P>
+
+<P>
+<A NAME="lbAH">&nbsp;</A>
+<h3/>ACKNOWLEDGEMENTS AND REFERENCES </h3/>
+
+KCrypt is based on information from a number of sources. 
+The IDEA algorithm iteself was developed by Dr Xuejia Lai and 
+Prof. James L Massey.
+A description of the algorithm may be found in: 
+Lai, X (1992) ``On the Design and Security of 
+Block Ciphers'', ETH Series on Information Processing (ed. Massey, JL) 
+Volume 1, Konstanz, Switzerland: Hartung-Gorre Verlag, ISBN 3-89191-573-X.
+<P>
+<A NAME="lbAI">&nbsp;</A>
+<h3/>BUGS</h3/>
+
+Occasional instances of odd behaviour have been reported when encrypting and
+decrypting files with `odd' access rights (e.g., write-only). 
+<P>
+<A NAME="lbAJ">&nbsp;</A>
+<h3/>AUTHOR AND LEGAL</h3/>
+
+KCrypt is maintained by Kevin Boone, and is open-source under the
+terms of the GNU Public Licence, version 2.0. There is no warranty
+of any kind.
+<P>
+<P>
+<A NAME="lbAK">&nbsp;</A>
+<h3/>SEE ALSO</h3/>
+
+For full details, including a discussion of the strengths and 
+weaknesses of KCrypt, see the Web site:
+<A HREF="http://kevinboone.net/README_kcrypt6.html">http://kevinboone.net/README_kcrypt6.html</A>
+<P>
+
+<P>
+
+<p/>
+
+<hr/>

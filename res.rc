@@ -1,0 +1,78 @@
+#include "windows.h" 
+#include "kcrypt_win32.h" 
+
+1 ICON "icons/app.ico" 
+
+prompt_operation DIALOG 10, 10, 160, 166
+    STYLE WS_BORDER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | DS_CENTER
+    CAPTION "kcrypt6"
+    FONT 8, "MS Shell Dlg"
+    BEGIN
+       GROUPBOX "" ,-1, 5, 5, 150, 156 
+       LTEXT      "", ID_MESSAGE, 
+         15, 15, 130, 25, SS_CENTER
+       PUSHBUTTON "&List files and status", ID_LIST, 
+         15, 40, 130, 20
+       PUSHBUTTON "&Decrypt and/or unmangle names", ID_DECRYPTUNMANGLE,        
+         15, 62, 130, 20
+       PUSHBUTTON "&Encrypt without mangling names", ID_ENCRYPTNOMANGLE, 
+         15, 84, 130, 20
+       PUSHBUTTON "Encrypt and &mangle names", ID_ENCRYPTMANGLE,  
+         15, 106, 130, 20
+       PUSHBUTTON "&Wipe files", ID_WIPE,           
+         15, 128, 130, 20
+    END
+
+prompt_password DIALOG 10, 10, 160, 100
+    STYLE WS_BORDER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | DS_CENTER
+    CAPTION "kcrypt6"
+    FONT 8, "MS Shell Dlg"
+    BEGIN
+       LTEXT      "", ID_MESSAGE, 
+         10, 5, 120, 25, SS_CENTER
+       LTEXT      "&Password:", -1, 
+         10, 35, 40, 15, SS_RIGHT
+       EDITTEXT       ID_PASSWORD1, 
+         60, 35, 70, 15, ES_PASSWORD
+       LTEXT      "&Confirm:", ID_PWLABEL2, 
+         10, 53, 40, 15, SS_RIGHT
+       EDITTEXT       ID_PASSWORD2, 
+         60, 53, 70, 15, ES_PASSWORD
+       GROUPBOX "" ,-1, 10, 25, 140, 50 
+       PUSHBUTTON "&OK", IDOK, 
+         40, 80, 40, 15 
+       PUSHBUTTON "C&ancel", IDCANCEL, 
+         80, 80, 40, 15 
+    END
+
+main_window DIALOG 10, 10, 240, 230
+    STYLE WS_BORDER | WS_POPUP | WS_CAPTION | DS_CENTER
+    CAPTION "kcrypt6"
+    FONT 8, "MS Shell Dlg"
+    BEGIN
+       GROUPBOX "" ,-1, 10, 10, 220, 72 
+       LTEXT "Operation:", -1, 
+         11, 20, 60, 15, SS_RIGHT
+       LTEXT "", ID_OPERATION, 
+         75, 20, 150, 15, SS_LEFT
+       LTEXT "File:", -1, 
+         11, 35, 60, 15, SS_RIGHT
+       LTEXT "", ID_FILE, 
+         75, 35, 150, 15, SS_LEFT
+       LTEXT "", -1, 
+         11, 50, 60, 15, SS_RIGHT
+       LTEXT "", ID_COUNT, 
+         75, 50, 150, 15, SS_LEFT
+       LTEXT "Progress:", -1, 
+         11, 65, 60, 15, SS_RIGHT
+       LTEXT "", ID_PROGRESS, 
+         75, 65, 150, 15, SS_LEFT
+       LISTBOX ID_LOG, 
+         11, 90, 220, 130, WS_VSCROLL | WS_HSCROLL 
+       PUSHBUTTON "&Close", ID_CLOSE, 
+         90, 210, 40, 15 
+    END
+
+
+
+

@@ -1,0 +1,156 @@
+.\" Copyright (C) 1998-2013 Kevin Boone 
+.\" Permission is granted to any individual or institution to use, copy, or
+.\" redistribute this software so long as all of the original files are
+.\" included, that it is not sold for profit, and that this copyright notice
+.\" is retained.
+.\"
+.TH kcrypt6 1 "March 2013"
+.SH NAME
+KCrypt 6.0 \- a file encryption/obfuscation tool 
+.SH SYNOPSIS
+.B kcrypt6 
+.RB [options]\ {files_or_directories}
+.PP
+
+.SH DISCLAIMER
+An encryption program, by definition, turns useful files into incomprehensible
+garbage. Please test this program very
+carefully on non-critical data before trusting it on important files. The
+author accepts
+no responsibility whatever for undesired consequences of using this software.
+
+.SH DESCRIPTION
+KCrypt 
+is a straightforward file encrypter/obfuscator, intended to provide 
+strong security for sensitive files. It encrypts files using a key (password),
+making them incomprehensible until they are decrypted, using the same key.
+By default KCrypt uses the IDEA algorith, but can be set to user a 
+faster (and weaker) method if preferred. 
+
+.SH OVERVIEW OF OPERATION
+In its most straightforward usage, KCrypt is invoked in either `encrypt' or
+`decrypt' mode, using the `-e' switch for encryption,
+ or the `-d' switch for decryption, followed by a list of files to
+encrypt or decrypt. For example, executing
+.LP
+kcrypt -e *
+.LP
+encrypts all the files in the current directory that are not already encrypted,
+while 
+.LP
+kcrypt -d fred
+.LP
+decrypts the file `fred'. In both cases, no extra files are created; the new
+file replaces the old one.
+.LP
+In all operations, KCrypt displays a status report, including the designation
+`OK', `SKIPPED' or `ERROR'.
+`SKIPPED' means that the operation requested was not appropriate to a
+particular file. For example, KCrypt will not encrypt a file that is already
+encrypted; this is not considered an error but a skip. However, attempting to
+encrypt or decrypt a non-regular file (e.g., a device or directory name) would
+be considered an error and marked as such.  
+
+.SH "OPTIONS"
+.TP
+.TP
+.BI \-c,\-\-cat\ { paths }
+Decrypt the specified files to standard output. This form of decryption
+does not produce any temporary files.
+.LP
+.TP
+.BI \-d,\-\-decrypt\ { paths }
+Decrypt the specified files or folders. 
+.LP
+.TP
+.BI \-e,\-\-encrypt\ { paths } 
+Encrypt the specified files in place, that is, retaining the original
+names. See also \fB--encryptmangle\fR. 
+.LP
+.TP
+.BI \-f,\-\-max\-files\ { number } 
+Sets the number of files that KCrypt is prepared to process in one
+operation, in recursive mode. The default is twenty. 
+There is no limit to the number of files that KCrypt will process if
+they are specified explicitly on the command-line, even with wildcards.
+.LP
+.TP
+.BI \-l,\-\-list\ { paths }
+Display information about encrypted files, including the original sizes and the
+time and date of encryption. One of the most important uses of \fB\-\-list\fR 
+is to
+determine the original filename for files that have had their names mangled
+(see below). Note that you will need to enter the password to see this 
+information,
+as it is all stored in the file in encrypted format.
+.LP
+.TP
+.BI \-m,\-\-encryptmangle\ { paths } 
+Encrypt and mangle the names of the specified files. The file will be 
+renamed to a random number, with the original name stored internally
+in encrypted format. 
+.LP
+.TP
+.BI \-n,\-\-no-colour
+Do not highlight status reports in colour, even if the terminal 
+supports it.
+.LP
+.TP
+.BI \-p,\-\-password\ { password } 
+Use the specified password, rather than prompting. Very insecure -- should
+only ever be used for testing.
+.LP
+.TP
+.BI \-r,\-\-recurse
+Recurse into subdirectories. Because of the possibility of disaster,
+only the first 20 files found will be processed. This behaviour can
+be overridden using the \fB--max-files\fR switch
+.LP
+.TP
+.BI \-\-version
+Display the version number. 
+.LP
+.TP
+.BI \-v,\-\-verbose
+Output debugging information.
+.LP
+.TP
+.BI \-w,\-\-wipe\ { paths }
+Wiping a file is a strong form of deletion. The file is overwritten with
+zeros and then deleted. 
+.LP
+.TP
+.BI \-x,\-\-xor
+Use the fast, weak XOR-based cipher, rather than the much stronger
+IDEA method.
+.LP
+.TP
+.BI \-y,\-\-yes
+Answer 'yes' to all confirmation prompts.
+.LP
+
+.SH ACKNOWLEDGEMENTS AND REFERENCES 
+KCrypt is based on information from a number of sources. 
+The IDEA algorithm iteself was developed by Dr Xuejia Lai and 
+Prof. James L Massey.
+A description of the algorithm may be found in: 
+Lai, X (1992) ``On the Design and Security of 
+Block Ciphers'', ETH Series on Information Processing (ed. Massey, JL) 
+Volume 1, Konstanz, Switzerland: Hartung-Gorre Verlag, ISBN 3-89191-573-X.
+
+.SH BUGS
+Occasional instances of odd behaviour have been reported when encrypting and
+decrypting files with `odd' access rights (e.g., write-only). 
+
+.SH AUTHOR AND LEGAL
+KCrypt is maintained by Kevin Boone, and is open-source under the
+terms of the GNU Public Licence, version 2.0. There is no warranty
+of any kind.
+
+
+.SH "SEE ALSO"
+For full details, including a discussion of the strengths and 
+weaknesses of KCrypt, see the Web site:
+http://kevinboone.net/README_kcrypt6.html
+
+.\" end of file

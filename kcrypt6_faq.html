@@ -1,0 +1,193 @@
+<a href="software.html">&bull; Software</a>
+<a href="utility_corner.html">&bull; Utility corner</a>
+
+<p>
+
+<h1>KCrypt -- frequently asked questions</h1>
+
+Version 6.0, March 2013
+
+<p/>
+<h3>How secure is KCrypt?</h3>
+KCrypt is designed to be cryptographically `unbreakable', that is, to 
+use the best cryptographic techniques available 
+outside of the military. It is extremely unlikely that standard
+cryptanalysis 
+techniques could be used to decrypt your files without the appropriate key. 
+Of course, 
+it is not 
+<i>impossible</i>
+that this will happen in the future, especially as computers become more 
+powerful.  However, 
+this is true of any encryption scheme, and there are currently some very weak 
+ones available commercially. 
+For example, I understand that it is now possible to buy
+a program that cracks the encryption schemes used by Microsoft Office 
+in a fraction of a 
+second. KCrypt has to be an improvement on this, and it is. 
+KCrypt uses by default
+the IDEA algorithm, which has so far withstood all known attempts to crack it.
+IDEA is one of the class of encryption techniques that
+are <i>algorithmically secure</i>. This means that the security is provided 
+by the
+process itself, not by secrecy about how it is implemented. The IDEA alogorithm
+is well-publicized and has been the subject of much research.  
+Because this algorithm is used by PGP, it has received a lot of attention from
+cryptanalysts, and if there were any obvious weaknesses they would no doubt
+have come to light by now. KCrypt uses IDEA in cipher feedback mode, which
+reduces the tendency of repeated patterns of data in the plaintext file
+to produce repeated patterns in the ciphertext. So far as the operating
+system allows, KCrypt tries to avoid leaving passwords in memory where
+they could be sniffed out by a very determined hacker, and to wipe
+clean any temporary files before they are deleted.
+<p/>
+The major weakness of KCrypt, as it is of other programs of this sort, 
+is inappropriate use. 
+For example, you may use it to encrypt a file produced using your word 
+processor, but forget 
+to encrypt the backup copy it made. These issues are discussed in great
+detail in the main page. 
+
+<h3>How do I know I can trust this program at all?</h3>
+
+I maintain KCrypt because I need it for myself, I like to be helpful, and 
+I can't legally sell it because of patent complications surrounding the
+IDEA algorithm (although these have now lapsed). 
+I trust it because I wrote it, but why should you? How do you know that 
+it doesn't leave back doors 
+by which I can decipher your secret files? How do you know it doesn't 
+transmit your secret files to me 
+over the Internet? The simple answer, of course, is that you don't, if
+you are using a pre-compiled version of the program. This problem applies to
+<i>any</i>
+encryption product you buy or obtain free-of-charge, not just this one. If you
+want to be really sure you know what KCrypt is doing, you should get the source
+code and compile it yourself. You should be able to find the source code in the
+same place as you found the executable program, if you haven't already. You can
+then check the implementation of the IDEA algorithm in KCrypt against the
+sample code provided by the original designers.  
+
+<h3>What platforms does KCrypt run on?</h3>
+
+It is known to work on Windows 7, Fedora Linux, and
+Android (in a terminal emulator). It can probably be built on
+most platforms for which a C compiler is available. At present,
+a graphical user interface is only available for Windows.
+
+
+<h3>Can KCrypt be use for email encryption?</h3>
+
+It is probably not appropriate. KCrypt is symmetric -- that is, 
+it uses the same key for encryption and decryption. Both the sender and
+the recipient would need the same key.
+
+<h3>Why is there not an automated installer?</h3>
+
+Becuase I lack the time to maintain installers for all the platforms
+that KCrypt runs on. Installation is trivial -- copy the program
+to any directory on the command line search path. Integrating the
+Windows GUI version with explorer is a two-minute point-and-click
+operation. Of course, anybody who wants to build an installer for
+some system or other is very welcome to.
+
+<h3>Can I have files in the same directory encrypted with different keys?</h3>
+
+Yes, but KCrypt is much easier to use if you use the same key for
+groups of files. If asked to process a file for which the current key is
+incorrect, KCrypt will simply skip the file.
+
+<h3>Why is the file size reported by <code>kcrypt --list</code> different
+from the size on disk?</h3>
+
+KCrypt adds a header to the encrypted file to identify that it is
+encrypted, and what algorithm was used, among other things. It 
+also pads out the size of the file to a fixed number of encyption blocks.
+This padding is removed on decryption as, of course, is the header.
+These overheads about about 300 bytes to the encyrypted file.
+
+<h3>Why do I need to enter a key just to get information about the file?</h3>
+
+Because this information is itself encrypted in the file. Lacking the
+key, there is no
+information about an encrypted file that could not be easily obtained using
+the `ls' command, or whatever. KCrypt's `list' function provides information
+about encrypted files only. Specifically, it reports the original filename of a
+file whose name has been mangled. This information must be encrypted, otherwise
+there is no purpose in name mangling. 
+
+<h3>Why does KCrypt ask for a key, even when I have accidentally 
+specified a non-existent file and there is no way it could be processed?</h3>
+
+KCrypt will ask for a key before starting any encrypt or decrypt operation. 
+It will do this even if the specified files do not exist, or are
+impossible to read. The reason for this is that KCrypt is designed to operate
+on many files at a time, and a particular operation may fail on one file and
+succeed on the next. Thus the key has to be established first. It would be
+possible to update the logic such that it behaves differently if only one file
+is specified, but this is a serious nuisance, and makes operation inconsistent.
+
+<h3>What is filename mangling?</h3>
+
+To further protect files from attack, KCrypt can conceal the original names
+of files. If your files are clearly named, then an unauthorised intruder knows
+at least which files to attack. If they are not usefully named, then 
+he or she has to attempt
+to decrypt a heap of files to be sure to get the interesting one. 
+KCrypt does not even leave a clear mark of its own existence in the
+mangled files. It is not trivially easy to determine even that the
+file is encrypted. Of course, a person who was prepared to study the
+source code of KCrypt could work out what its encrypted files looked like
+internally.
+
+<h3>Can KCrypt read decrypt files encrypted by PGP, or vice versa?</h3> 
+At present, no, even though both use the same cipher algorithm. 
+When I set out to write KCrypt I did not have access
+to information about PGP's file formats, and even now I'm not sure that the way
+PGP saves data is optimal for personal (as opposed to communications) security.
+
+<h3>KCrypt is slow. How can it be made faster?</h3>
+
+The encryption is mathematically intensive, and even with as much
+optimization as I can muster it is not blazingly fast. Encrypting files
+that are gigabytes in size takes minutes, even on a powerful computer.
+<p/>
+If speed is a real concern, you can use KCrypt with the <code>--xor</code>
+switch, which makes it use a much faster, but not very strong, 
+XOR-based cipher (similar to the technique used by WinZIP, for example).
+
+<h3>Does KCrypt support files larger than 2Gb?</h3>
+
+It should do, although you'll have time for a cup of tea while they
+are being processed. Please let me know if you experience problems
+with large files. 
+
+<h3>Can KCrypt be used to protect files shared using, for example, DropBox?</h3>
+
+In principle, yes. It works, and can be quite effective. However, KCrypt
+always encrypts and decrypts files into the same directory. This means
+that if you decrypt a file in a DropBox directory, edit it, and encrypt
+it again, DropBox will detect the change in the file that resulted from
+the decryption, and transmit the decrypted version over the network. 
+Shortly thereafter it will transmit the re-encrypted version, but the
+concern is that a plaintext version has been held on the server, at 
+least transiently.
+<p/>
+Similarly, DropBox might detect the creation of temporary files in
+the same directory, and transmit those over the network. If you need a
+system where a plaintext file is <i>never</i> passed to the network 
+server, even temporarily, KCrypt is not what you need.  
+<p/>
+You could, of course, encrypt the file in a directory outside of
+DropBox, then copy the encrypted version to the DropBox folder. 
+The same approach could be applied to decryption. Nevertheless, there
+are probably better solutions to problem of securing files on
+shared cloud storage. 
+
+ 
+<h2>Further information</h2>
+
+<ul>
+<li><code>kcrypt6</code> <a href="kcrypt6.man.html">man page</a></li>
+<li><a href="README_kcrypt6.html">KCrypt main page</a></li>
+</ul>
+
